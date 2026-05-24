@@ -78,16 +78,11 @@ export default function Calculator() {
 
     const tier   = CALC_TIERS.find((t) => t.id === sqft) ?? CALC_TIERS[0]
     const isH    = prop === 'house'
-    let hAdj = 0
-    if (isH && sqft === 'base') {
-      if (svc === 'regular') hAdj = 25
-      if (svc === 'deep')    hAdj = 70
-    }
 
     const sqS      = sqft === 'base' ? 0 : tier.s
     const hvS      = cond === 'heavy' ? tier.h : 0
-    const discPrice = Math.round((base + hAdj) * freq.value)
-    const saved    = (base + hAdj) - discPrice
+    const discPrice = Math.round(base * freq.value)
+    const saved    = base - discPrice
     const sub      = discPrice + sqS + hvS
     const hSmall   = isH && (sqft === 'base' || sqft === '1000-1499') ? HOUSE_SMALL_SURCHARGE : 0
 
@@ -110,7 +105,7 @@ export default function Calculator() {
     const total  = sub + addons + hSmall
     const svcLbl = SVC_LABELS[svc] ?? svc
     const szLbl  = SIZE_LABELS[size] ?? size
-    let html = `${svcLbl} · ${szLbl} · ${isH ? 'House' : 'Condo'}<br>Base: $${base}${hAdj ? ` + $${hAdj}` : ''}`
+    let html = `${svcLbl} · ${szLbl} · ${isH ? 'House' : 'Condo'}<br>Base: $${base}`
     if (sqS > 0)   html += `<br>Size surcharge: +$${sqS}`
     if (hvS > 0)   html += `<br>Heavy soiling: +$${hvS}`
     if (saved > 0) html += `<br>Discount (${freq.disc}%): −$${saved}`
