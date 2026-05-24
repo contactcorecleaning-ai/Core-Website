@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react'
 import {
   CALC_BASE, CALC_TIERS, CALC_WIN_P, FREQ_OPTIONS,
-  SVC_LABELS, SIZE_LABELS, SITE,
+  SVC_LABELS, SIZE_LABELS, SITE, ADDON_PRICES,
 } from '@/content/content'
 import HourlyCalculator from './HourlyCalculator'
 
@@ -92,19 +92,19 @@ export default function Calculator() {
 
     let addons = 0
     const lines: string[] = []
-    if (pet)   { addons += 29; lines.push('Pet hair: +$29') }
-    if (!isMIO && oven)   { addons += 69; lines.push('Oven: +$69') }
-    if (!isMIO && fridge) { addons += 49; lines.push('Fridge: +$49') }
-    if (!isMIO && blinds) { addons += 39; lines.push('Blinds: +$39') }
-    if (walls) { addons += 59; lines.push('Walls: +$59') }
-    if (doors) { addons += 39; lines.push('Doors: +$39') }
-    if (!isMIO && dish)   { addons += 39; lines.push('Dishwasher: +$39') }
+    if (pet)   { addons += ADDON_PRICES.pet;   lines.push(`Pet hair: +$${ADDON_PRICES.pet}`) }
+    if (!isMIO && oven)   { addons += ADDON_PRICES.oven;   lines.push(`Oven: +$${ADDON_PRICES.oven}`) }
+    if (!isMIO && fridge) { addons += ADDON_PRICES.fridge; lines.push(`Fridge: +$${ADDON_PRICES.fridge}`) }
+    if (!isMIO && blinds) { addons += ADDON_PRICES.blinds; lines.push(`Blinds: +$${ADDON_PRICES.blinds}`) }
+    if (walls) { addons += ADDON_PRICES.walls; lines.push(`Walls: +$${ADDON_PRICES.walls}`) }
+    if (doors) { addons += ADDON_PRICES.doors; lines.push(`Doors: +$${ADDON_PRICES.doors}`) }
+    if (!isMIO && dish)   { addons += ADDON_PRICES.dish;  lines.push(`Dishwasher: +$${ADDON_PRICES.dish}`) }
     if (!isMIO && win)    { addons += winPrice; lines.push(`Windows: +$${winPrice}`) }
-    if (carpet > 0)   { const c = 100 + Math.max(0, carpet - 1) * 70;  addons += c; lines.push(`Carpet(${carpet}rm): +$${c}`) }
-    if (sofaS > 0)    { const s = sofaS * 129;   addons += s; lines.push(`Sofa S×${sofaS}: +$${s}`) }
-    if (sofaL > 0)    { const s = sofaL * 200;   addons += s; lines.push(`Sofa L×${sofaL}: +$${s}`) }
-    if (laundry > 0)  { const s = laundry * 25;  addons += s; lines.push(`Laundry×${laundry}: +$${s}`) }
-    if (dishLoad > 0) { const s = dishLoad * 25; addons += s; lines.push(`Dish×${dishLoad}: +$${s}`) }
+    if (carpet > 0)   { const c = ADDON_PRICES.carpet1 + Math.max(0, carpet - 1) * ADDON_PRICES.carpetX; addons += c; lines.push(`Carpet(${carpet}rm): +$${c}`) }
+    if (sofaS > 0)    { const s = sofaS * ADDON_PRICES.sofaS;    addons += s; lines.push(`Sofa S×${sofaS}: +$${s}`) }
+    if (sofaL > 0)    { const s = sofaL * ADDON_PRICES.sofaL;    addons += s; lines.push(`Sofa L×${sofaL}: +$${s}`) }
+    if (laundry > 0)  { const s = laundry * ADDON_PRICES.laundry;  addons += s; lines.push(`Laundry×${laundry}: +$${s}`) }
+    if (dishLoad > 0) { const s = dishLoad * ADDON_PRICES.dishLoad; addons += s; lines.push(`Dish×${dishLoad}: +$${s}`) }
 
     const total  = sub + addons
     const svcLbl = SVC_LABELS[svc] ?? svc
@@ -369,22 +369,22 @@ export default function Calculator() {
                   <div className="calc-step">
                     <p className="slabel mb-4">Add-ons</p>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <AddonRow label="Pet hair surcharge"   price="+$29" checked={pet}    onChange={setPet} />
-                      <AddonRow label="Inside oven"          price="+$69" checked={oven}   onChange={setOven}   included={isMIO} />
-                      <AddonRow label="Inside fridge"        price="+$49" checked={fridge} onChange={setFridge} included={isMIO} />
-                      <AddonRow label="Window blinds"        price="+$39" checked={blinds} onChange={setBlinds} included={isMIO} />
-                      <AddonRow label="Spot clean walls"     price="+$59" checked={walls}  onChange={setWalls} />
-                      <AddonRow label="Clean all doors"      price="+$39" checked={doors}  onChange={setDoors} />
-                      <AddonRow label="Inside dishwasher"    price="+$39" checked={dish}   onChange={setDish}   included={isMIO} />
+                      <AddonRow label="Pet hair surcharge"   price={`+$${ADDON_PRICES.pet}`}    checked={pet}    onChange={setPet} />
+                      <AddonRow label="Inside oven"          price={`+$${ADDON_PRICES.oven}`}   checked={oven}   onChange={setOven}   included={isMIO} />
+                      <AddonRow label="Inside fridge"        price={`+$${ADDON_PRICES.fridge}`} checked={fridge} onChange={setFridge} included={isMIO} />
+                      <AddonRow label="Window blinds"        price={`+$${ADDON_PRICES.blinds}`} checked={blinds} onChange={setBlinds} included={isMIO} />
+                      <AddonRow label="Spot clean walls"     price={`+$${ADDON_PRICES.walls}`}  checked={walls}  onChange={setWalls} />
+                      <AddonRow label="Clean all doors"      price={`+$${ADDON_PRICES.doors}`}  checked={doors}  onChange={setDoors} />
+                      <AddonRow label="Inside dishwasher"    price={`+$${ADDON_PRICES.dish}`}   checked={dish}   onChange={setDish}   included={isMIO} />
                       <AddonRow label="Interior windows"     price={`+$${winPrice}`} checked={win} onChange={setWin} included={isMIO} note={winNote} />
-                      <CounterRow label="Carpet cleaning"              price="$100 first room · +$70 each extra" val={carpet}   onAdj={(d) => setCarpet((v)   => Math.max(0, v + d))} />
-                      <CounterRow label="Sofa — small (1–2 seater)"   price="$129 each · extra +$100"           val={sofaS}    onAdj={(d) => setSofaS((v)    => Math.max(0, v + d))} />
-                      <CounterRow label="Sofa — large (3+ seater)"    price="$200 each · extra +$150"           val={sofaL}    onAdj={(d) => setSofaL((v)    => Math.max(0, v + d))} />
-                      <CounterRow label="Laundry loads"                price="$25 per load"                      val={laundry}  onAdj={(d) => setLaundry((v)  => Math.max(0, v + d))} />
+                      <CounterRow label="Carpet cleaning"              price={`$${ADDON_PRICES.carpet1} first room · +$${ADDON_PRICES.carpetX} each extra`} val={carpet}   onAdj={(d) => setCarpet((v)   => Math.max(0, v + d))} />
+                      <CounterRow label="Sofa — small (1–2 seater)"   price={`$${ADDON_PRICES.sofaS} each`}  val={sofaS}    onAdj={(d) => setSofaS((v)    => Math.max(0, v + d))} />
+                      <CounterRow label="Sofa — large (3+ seater)"    price={`$${ADDON_PRICES.sofaL} each`}  val={sofaL}    onAdj={(d) => setSofaL((v)    => Math.max(0, v + d))} />
+                      <CounterRow label="Laundry loads"                price={`$${ADDON_PRICES.laundry} per load`}  val={laundry}  onAdj={(d) => setLaundry((v)  => Math.max(0, v + d))} />
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 0' }}>
                         <div>
                           <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-900)' }}>Dishwasher loads</p>
-                          <p style={{ fontSize: 11, color: 'var(--ink-300)', marginTop: 2 }}>$25 per load</p>
+                          <p style={{ fontSize: 11, color: 'var(--ink-300)', marginTop: 2 }}>${ADDON_PRICES.dishLoad} per load</p>
                         </div>
                         <Counter val={dishLoad} onAdj={(d) => setDishLoad((v) => Math.max(0, v + d))} />
                       </div>

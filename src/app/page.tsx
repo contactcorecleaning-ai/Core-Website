@@ -9,6 +9,7 @@ import FAQ from '@/components/FAQ'
 import CTABanner from '@/components/CTABanner'
 import ContactForm from '@/components/ContactForm'
 import Footer from '@/components/Footer'
+import FloatingButtons from '@/components/FloatingButtons'
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
         <ContactForm />
       </main>
       <Footer />
+      <FloatingButtons />
     </>
   )
 }
