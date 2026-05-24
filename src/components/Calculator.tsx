@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react'
 import {
   CALC_BASE, CALC_TIERS, CALC_WIN_P, FREQ_OPTIONS,
-  SVC_LABELS, SIZE_LABELS, SITE, ADDON_PRICES, HOUSE_SMALL_SURCHARGE,
+  SVC_LABELS, SIZE_LABELS, SITE, ADDON_PRICES, HOUSE_SMALL_SURCHARGE, DEEP_HOUSE_ADJ,
 } from '@/content/content'
 import HourlyCalculator from './HourlyCalculator'
 
@@ -79,10 +79,11 @@ export default function Calculator() {
     const tier   = CALC_TIERS.find((t) => t.id === sqft) ?? CALC_TIERS[0]
     const isH    = prop === 'house'
 
+    const hAdj     = svc === 'deep' && isH ? DEEP_HOUSE_ADJ : 0
     const sqS      = sqft === 'base' ? 0 : tier.s
     const hvS      = cond === 'heavy' ? tier.h : 0
-    const discPrice = Math.round(base * freq.value)
-    const saved    = base - discPrice
+    const discPrice = Math.round((base + hAdj) * freq.value)
+    const saved    = (base + hAdj) - discPrice
     const sub      = discPrice + sqS + hvS
     const hSmall   = isH && (sqft === 'base' || sqft === '1000-1499') ? HOUSE_SMALL_SURCHARGE : 0
 
@@ -105,7 +106,7 @@ export default function Calculator() {
     const total  = sub + addons + hSmall
     const svcLbl = SVC_LABELS[svc] ?? svc
     const szLbl  = SIZE_LABELS[size] ?? size
-    let html = `${svcLbl} · ${szLbl} · ${isH ? 'House' : 'Condo'}<br>Base: $${base}`
+    let html = `${svcLbl} · ${szLbl} · ${isH ? 'House' : 'Condo'}<br>Base: $${base}${hAdj ? ` + $${hAdj}` : ''}`
     if (sqS > 0)   html += `<br>Size surcharge: +$${sqS}`
     if (hvS > 0)   html += `<br>Heavy soiling: +$${hvS}`
     if (saved > 0) html += `<br>Discount (${freq.disc}%): −$${saved}`

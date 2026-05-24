@@ -263,6 +263,7 @@ export const SIZE_LABELS: Record<string, string> = {
 }
 
 export const HOUSE_SMALL_SURCHARGE = 30
+export const DEEP_HOUSE_ADJ        = 50
 
 export const ADDON_PRICES = {
   pet:     29,
