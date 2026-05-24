@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react'
 import {
   CALC_BASE, CALC_TIERS, CALC_WIN_P, FREQ_OPTIONS,
-  SVC_LABELS, SIZE_LABELS, SITE, ADDON_PRICES,
+  SVC_LABELS, SIZE_LABELS, SITE, ADDON_PRICES, HOUSE_SMALL_SURCHARGE,
 } from '@/content/content'
 import HourlyCalculator from './HourlyCalculator'
 
@@ -89,6 +89,7 @@ export default function Calculator() {
     const discPrice = Math.round((base + hAdj) * freq.value)
     const saved    = (base + hAdj) - discPrice
     const sub      = discPrice + sqS + hvS
+    const hSmall   = isH && (sqft === 'base' || sqft === '1000-1499') ? HOUSE_SMALL_SURCHARGE : 0
 
     let addons = 0
     const lines: string[] = []
@@ -106,7 +107,7 @@ export default function Calculator() {
     if (laundry > 0)  { const s = laundry * ADDON_PRICES.laundry;  addons += s; lines.push(`Laundry×${laundry}: +$${s}`) }
     if (dishLoad > 0) { const s = dishLoad * ADDON_PRICES.dishLoad; addons += s; lines.push(`Dish×${dishLoad}: +$${s}`) }
 
-    const total  = sub + addons
+    const total  = sub + addons + hSmall
     const svcLbl = SVC_LABELS[svc] ?? svc
     const szLbl  = SIZE_LABELS[size] ?? size
     let html = `${svcLbl} · ${szLbl} · ${isH ? 'House' : 'Condo'}<br>Base: $${base}${hAdj ? ` + $${hAdj}` : ''}`

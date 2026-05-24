@@ -262,6 +262,8 @@ export const SIZE_LABELS: Record<string, string> = {
   '6b':   '6 Bed',
 }
 
+export const HOUSE_SMALL_SURCHARGE = 30
+
 export const ADDON_PRICES = {
   pet:     29,
   oven:    69,
