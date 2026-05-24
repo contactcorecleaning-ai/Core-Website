@@ -214,9 +214,12 @@ export default function Calculator() {
     setEstErr(false)
     if (!result) return
     const details = result.html.replace(/<br>/gi, '\n').replace(/<[^>]*>/g, '').trim()
-    const s = encodeURIComponent(`Calculator Estimate — ${result.price} (${result.per}) — Core Cleaning Services`)
-    const b = encodeURIComponent(`Name: ${estName}\nPhone: ${estPhone}\nEmail: ${estEmail || 'N/A'}\n\nEstimated Price: ${result.price} (${result.per})\n\nBreakdown:\n${details}`)
-    window.open(`mailto:${SITE.email}?subject=${s}&body=${b}`, '_self')
+    const s = encodeURIComponent(`Quick Estimate — ${result.price} — Core Cleaning Services`)
+    const emailLine = estEmail.trim() ? `\nEmail: ${estEmail.trim()}` : ''
+    const b = encodeURIComponent(
+      `Name: ${estName}\nPhone: ${estPhone}${emailLine}\n\nEstimated Price: ${result.price}\n\nBreakdown:\n${details}`
+    )
+    window.location.href = `mailto:${SITE.email}?subject=${s}&body=${b}`
     setEstOk(true)
   }
 
@@ -439,7 +442,7 @@ export default function Calculator() {
                             Send Estimate
                           </button>
                         )}
-                        {estOk  && <p style={{ fontSize: 12, color: 'var(--acc-m)', textAlign: 'center', marginTop: 10 }}>✓ Sent! We&apos;ll be in touch shortly.</p>}
+                        {estOk  && <p style={{ fontSize: 13, color: 'var(--acc-m)', textAlign: 'center', marginTop: 10, lineHeight: 1.6 }}>Thanks! Your estimate has been sent.<br />We&apos;ll follow up within 2 hours.</p>}
                         {estErr && <p style={{ fontSize: 12, color: '#f87171',    textAlign: 'center', marginTop: 8  }}>Please enter your name and phone number.</p>}
                       </div>
                     )}
