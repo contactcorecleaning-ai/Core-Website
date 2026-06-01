@@ -81,7 +81,7 @@ export const SERVICES = [
     num: '07',
     name: 'Hourly Cleaning',
     description: 'Flexible hourly booking with a professional 2-cleaner team. Partial cleans or maintenance sessions.',
-    price: '$80/hr · 2-cleaner team',
+    price: '$45/hr per cleaner',
     highlight: true,
   },
   {
@@ -95,7 +95,7 @@ export const SERVICES = [
     num: '09',
     name: 'BBQ Cleaning',
     description: 'Full degreasing and deep clean of your barbecue — grates, burners, drip trays and exterior. Ready for your next cookout.',
-    price: 'From $219',
+    price: 'From $199',
     highlight: false,
   },
   {
@@ -253,11 +253,17 @@ export const CALC_TIERS = [
 export const CALC_WIN_P = [69, 69, 69, 119, 119, 149, 149]
 
 export const FREQ_OPTIONS = [
-  { label: 'One-time',    value: 1,    disc: 0  },
-  { label: 'Monthly',     value: 0.95, disc: 5  },
-  { label: 'Tri-weekly',  value: 0.90, disc: 10 },
-  { label: 'Bi-weekly',   value: 0.88, disc: 12 },
-  { label: 'Weekly',      value: 0.85, disc: 15 },
+  { label: 'One-time',  value: 1,    disc: 0  },
+  { label: 'Monthly',   value: 0.95, disc: 5  },
+  { label: 'Bi-weekly', value: 0.85, disc: 15 },
+  { label: 'Weekly',    value: 0.80, disc: 20 },
+]
+
+export const CALC_BULLETS = [
+  'Flat rates by home size',
+  'Recurring clients save up to 20%',
+  'All add-ons priced transparently',
+  'No hidden charges — ever',
 ]
 
 export const SVC_LABELS: Record<string, string> = {
