@@ -2,7 +2,7 @@
 import { useState, useMemo } from 'react'
 import {
   CALC_BASE_CONDO, CALC_BASE_HOUSE, CALC_TIERS, CALC_WIN_P,
-  FREQ_OPTIONS, SVC_LABELS, SITE, ADDON_PRICES,
+  FREQ_OPTIONS, SVC_LABELS, SITE, ADDON_PRICES, CALC_BULLETS,
   EXTRA_BED, EXTRA_BATH, EXTRA_MIO_BED, HEAVY_SOILING,
   BBQ_PANEL, PRESSURE_PANEL,
 } from '@/content/content'
@@ -211,7 +211,7 @@ export default function Calculator() {
               Select your service and size. Your flat-rate price appears immediately — no calls required for standard services.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 40 }}>
-              {['Flat rates by home size','Recurring clients save up to 15%','All add-ons priced transparently','No hidden charges — ever'].map((line) => (
+              {CALC_BULLETS.map((line) => (
                 <div key={line} style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 13, color: 'var(--ink-700)' }}>
                   <div style={{ width: 20, height: 1, background: 'var(--acc-m)', flexShrink: 0 }} />
                   {line}
