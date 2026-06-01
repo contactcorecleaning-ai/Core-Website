@@ -217,25 +217,40 @@ export const FOOTER_COMPANY = [
 // ─── Calculator Pricing Data ──────────────────────────────────────────────────
 // Edit base prices, surcharges, add-on prices below.
 
-export const CALC_BASE: Record<string, Record<string, number>> = {
-  regular:   { studio: 149, '1b1b': 159, '2b1b': 179, '2b2b': 189, '3b2b': 219, '4b': 259, '5b': 299, '6b': 369 },
-  deep:      { studio: 195, '1b1b': 235, '2b1b': 295, '2b2b': 345, '3b2b': 415 },
-  moveinout: { studio: 265, '1b1b': 285, '2b1b': 355, '2b2b': 435, '3b2b': 485, '4b': 565, '5b': 545, '6b': 625 },
+export const HOURLY_RATE_PER_CLEANER = 45   // ×2 cleaners = $90/hr total
+
+// Per-unit overflow prices when beds > 3 or baths > 2
+export const EXTRA_BED     = 20   // regular & deep
+export const EXTRA_BATH    = 35   // all services
+export const EXTRA_MIO_BED = 15   // move-in/out only
+
+export const HEAVY_SOILING = 120  // flat surcharge regardless of sqft tier
+
+// Condo / Apartment base prices
+export const CALC_BASE_CONDO: Record<string, Record<string, number>> = {
+  regular:   { studio: 149, '1b1b': 159, '2b1b': 179, '2b2b': 189, '3b2b': 219 },
+  deep:      { studio: 195, '1b1b': 235, '2b1b': 265, '2b2b': 295, '3b2b': 325 },
+  moveinout: { studio: 265, '1b1b': 285, '2b1b': 315, '2b2b': 350, '3b2b': 365 },
+}
+
+// House / Townhouse base prices — identical structure, every entry +$30
+export const CALC_BASE_HOUSE: Record<string, Record<string, number>> = {
+  regular:   { studio: 179, '1b1b': 189, '2b1b': 209, '2b2b': 219, '3b2b': 249 },
+  deep:      { studio: 225, '1b1b': 265, '2b1b': 295, '2b2b': 325, '3b2b': 355 },
+  moveinout: { studio: 295, '1b1b': 315, '2b1b': 345, '2b2b': 380, '3b2b': 395 },
 }
 
 export const CALC_TIERS = [
-  { id: 'base',      s: 0,   h: 80  },
-  { id: '1000-1499', s: 50,  h: 95  },
-  { id: '1500-1999', s: 80,  h: 120 },
-  { id: '2000-2499', s: 120, h: 150 },
-  { id: '2500-2999', s: 150, h: 180 },
-  { id: '3000+',     s: 215, h: 210 },
+  { id: 'base',      s: 0   },
+  { id: '1000-1499', s: 80  },
+  { id: '1500-1999', s: 150 },
+  { id: '2000-2499', s: 220 },
+  { id: '2500-2999', s: 290 },
+  { id: '3000+',     s: 360 },
 ]
 
-export const CALC_WIN_P: Record<string, number> = {
-  studio: 69, '1b1b': 69, '2b1b': 69, '2b2b': 69,
-  '3b2b': 119, '4b': 119, '5b': 149, '6b': 149,
-}
+// Indexed by bedroom count (0 = studio, up to 6)
+export const CALC_WIN_P = [69, 69, 69, 119, 119, 149, 149]
 
 export const FREQ_OPTIONS = [
   { label: 'One-time',    value: 1,    disc: 0  },
@@ -249,21 +264,23 @@ export const SVC_LABELS: Record<string, string> = {
   regular:   'Regular clean',
   deep:      'Deep clean',
   moveinout: 'Move-in/Move-out',
+  bbq:       'BBQ Cleaning',
+  pressure:  'Pressure Washing',
 }
 
-export const SIZE_LABELS: Record<string, string> = {
-  studio: 'Studio',
-  '1b1b': '1Bd/1Ba',
-  '2b1b': '2Bd/1Ba',
-  '2b2b': '2Bd/2Ba',
-  '3b2b': '3Bd/2Ba',
-  '4b':   '4 Bed',
-  '5b':   '5 Bed',
-  '6b':   '6 Bed',
+export const BBQ_PANEL = {
+  title: 'BBQ Cleaning',
+  body:  "BBQ Cleaning starts from $199. For an exact quote based on your BBQ size and condition, get in touch — we'll get back to you within 2 hours.",
+  btn1:  'Request a Quote',
+  btn2:  'WhatsApp Us',
 }
 
-export const HOUSE_SMALL_SURCHARGE = 30
-export const DEEP_HOUSE_ADJ        = 50
+export const PRESSURE_PANEL = {
+  title: 'Pressure Washing',
+  body:  "For Pressure Washing pricing, please get in touch — we'll provide a custom quote based on your specific needs and surface area.",
+  btn1:  'Request a Quote',
+  btn2:  'WhatsApp Us',
+}
 
 export const ADDON_PRICES = {
   pet:     29,
