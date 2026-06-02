@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { SITE } from '@/content/content'
+import { trackConversion, CONV_WHATSAPP, CONV_QUOTE } from '@/lib/gtag'
 
 type SvcOpt  = 'Regular' | 'Deep clean' | 'Move-in/out' | 'Hourly' | 'Post-construction' | 'Commercial' | 'Other'
 type PropOpt = 'Condo/Apt' | 'House' | 'Commercial'
@@ -23,6 +24,7 @@ export default function ContactForm() {
   function handleSubmit() {
     if (!name.trim() || !phone.trim() || !email.trim()) { setErr(true); return }
     setErr(false)
+    trackConversion(CONV_QUOTE)
     const s = encodeURIComponent('Custom Quote — Core Cleaning Services')
     const b = encodeURIComponent(
       `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nService: ${qSvc}\nProperty: ${qProp}\nSq ft: ${sqft || 'N/A'}\nDate: ${date || 'Flexible'}\nNotes: ${notes || 'None'}`
@@ -77,7 +79,7 @@ export default function ContactForm() {
               </div>
               <div>
                 <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--acc)', marginBottom: 4 }}>WhatsApp</p>
-                <a href={SITE.whatsapp} target="_blank" rel="noopener" style={{ fontSize: 14, color: 'var(--ink-700)', textDecoration: 'none' }}>Message us →</a>
+                <a href={SITE.whatsapp} target="_blank" rel="noopener" style={{ fontSize: 14, color: 'var(--ink-700)', textDecoration: 'none' }} onClick={() => trackConversion(CONV_WHATSAPP)}>Message us →</a>
               </div>
               <div>
                 <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--acc)', marginBottom: 4 }}>Book Online</p>

@@ -1,5 +1,6 @@
 'use client'
 import { SITE } from '@/content/content'
+import { trackConversion, CONV_WHATSAPP } from '@/lib/gtag'
 
 export default function FloatingButtons() {
   return (
@@ -10,6 +11,7 @@ export default function FloatingButtons() {
         target="_blank"
         rel="noopener"
         aria-label="WhatsApp"
+        onClick={() => trackConversion(CONV_WHATSAPP)}
         style={{
           width: 48, height: 48, borderRadius: '50%',
           background: '#25D366', color: '#fff',

@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 import { useScrollFade } from '@/hooks/useScrollFade'
 import { SITE } from '@/content/content'
+import { trackConversion, CONV_BOOK } from '@/lib/gtag'
 
 export default function Hero() {
   useScrollFade()
@@ -42,6 +43,7 @@ export default function Hero() {
               href={SITE.booking}
               target="_blank"
               rel="noopener"
+              onClick={() => trackConversion(CONV_BOOK)}
               style={{
                 display: 'inline-block',
                 border: '1.5px solid rgba(255,255,255,.35)',
