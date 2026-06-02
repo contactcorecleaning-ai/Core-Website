@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Script from 'next/script'
 import './globals.css'
 import { META, SITE } from '@/content/content'
 
@@ -66,10 +65,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=AW-17772848067" />
-        <Script
-          strategy="afterInteractive"
-          id="gtag-init"
+        {/* Google Ads tag — raw script so it lands in <head>, not deferred */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17772848067" />
+        <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-17772848067');`,
           }}
