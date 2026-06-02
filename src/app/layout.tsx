@@ -59,6 +59,13 @@ const jsonLd = {
   currenciesAccepted: 'CAD',
   paymentAccepted: 'Cash, Credit Card, E-Transfer',
   openingHours: 'Mo-Su 07:00-21:00',
+  image: 'https://www.corecleaningservices.ca/logo.png',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://www.corecleaningservices.ca/logo.png',
+    width: 200,
+    height: 200,
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
