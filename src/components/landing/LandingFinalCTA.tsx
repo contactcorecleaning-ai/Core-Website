@@ -36,8 +36,12 @@ export default function LandingFinalCTA() {
           >
             {LANDING.finalCta.title}
           </h2>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <a href="#pricing" className="btn-p">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
+            <a
+              href="#pricing"
+              className="btn-p"
+              style={{ fontSize: 16, fontWeight: 700, padding: '17px 34px', boxShadow: '0 6px 24px rgba(58,130,180,.4)' }}
+            >
               {LANDING.finalCta.ctaPrimary}
             </a>
             <a
@@ -45,11 +49,11 @@ export default function LandingFinalCTA() {
               onClick={() => trackConversion(CONV_BOOK)}
               style={{
                 display: 'inline-block',
-                border: '1.5px solid rgba(255,255,255,.35)',
-                color: '#fff',
+                border: '1px solid rgba(255,255,255,.25)',
+                color: 'rgba(255,255,255,.65)',
                 fontSize: 13,
-                fontWeight: 600,
-                padding: '11px 22px',
+                fontWeight: 500,
+                padding: '10px 20px',
                 borderRadius: 6,
                 textDecoration: 'none',
               }}
@@ -57,6 +61,9 @@ export default function LandingFinalCTA() {
               {LANDING.finalCta.ctaSecondary}
             </a>
           </div>
+          <p style={{ marginTop: 18, fontSize: 12, color: 'rgba(255,255,255,.45)' }}>
+            {LANDING.finalCta.urgencyLine}
+          </p>
         </div>
       </div>
     </section>

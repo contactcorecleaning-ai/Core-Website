@@ -51,8 +51,12 @@ export default function LandingHero() {
             {LANDING.hero.subheadline}
           </p>
 
-          <div style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
-            <a href="#pricing" className="btn-p" style={{ fontSize: 14, padding: '12px 22px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24, flexWrap: 'wrap' }}>
+            <a
+              href="#pricing"
+              className="btn-p"
+              style={{ fontSize: 16, fontWeight: 700, padding: '17px 34px', boxShadow: '0 6px 24px rgba(58,130,180,.4)' }}
+            >
               {LANDING.hero.ctaPrimary}
             </a>
             <a
@@ -60,11 +64,11 @@ export default function LandingHero() {
               onClick={() => trackConversion(CONV_BOOK)}
               style={{
                 display: 'inline-block',
-                border: '1.5px solid rgba(255,255,255,.35)',
-                color: '#fff',
-                fontSize: 14,
+                border: '1px solid rgba(255,255,255,.25)',
+                color: 'rgba(255,255,255,.65)',
+                fontSize: 13,
                 fontWeight: 500,
-                padding: '11px 22px',
+                padding: '10px 20px',
                 borderRadius: 6,
                 textDecoration: 'none',
               }}

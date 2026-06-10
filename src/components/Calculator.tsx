@@ -4,7 +4,7 @@ import {
   CALC_BASE_CONDO, CALC_BASE_HOUSE, CALC_TIERS, CALC_WIN_P,
   FREQ_OPTIONS, SVC_LABELS, SITE, ADDON_PRICES, CALC_BULLETS,
   EXTRA_BED, EXTRA_BATH, EXTRA_MIO_BED, HEAVY_SOILING,
-  BBQ_PANEL, PRESSURE_PANEL,
+  BBQ_PANEL, PRESSURE_PANEL, LANDING,
 } from '@/content/content'
 import { trackConversion, CONV_BOOK, CONV_QUOTE } from '@/lib/gtag'
 import { trackEstimate, withBookingParams, slug } from '@/lib/trackEstimate'
@@ -407,7 +407,7 @@ export default function Calculator({ firstTimeOffer, scrollToBook }: Props) {
                         {result.badge}
                       </p>
                     )}
-                    {firstTimeOffer && (
+                    {firstTimeOffer && !scrollToBook && (
                       <p style={{ fontSize: 12, color: 'var(--acc-m)', fontWeight: 600, marginBottom: 16 }}>
                         {firstTimeOffer}
                       </p>
@@ -416,20 +416,43 @@ export default function Calculator({ firstTimeOffer, scrollToBook }: Props) {
                       style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', lineHeight: 1.8, borderTop: '1px solid rgba(255,255,255,.08)', paddingTop: 16, marginBottom: 20 }}
                       dangerouslySetInnerHTML={{ __html: result?.html ?? '' }}
                     />
+                    {firstTimeOffer && scrollToBook && (
+                      <p style={{ fontSize: 13, color: 'var(--acc-m)', fontWeight: 700, textAlign: 'center', marginBottom: 12 }}>
+                        {firstTimeOffer}
+                      </p>
+                    )}
                     <a
                       href={scrollToBook ? '#book' : bookingHref}
                       {...(scrollToBook ? {} : { target: '_blank', rel: 'noopener' })}
                       onClick={handleBookClick}
-                      style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}
+                      style={
+                        scrollToBook
+                          ? { display: 'block', width: '100%', background: 'var(--acc)', color: '#fff', fontSize: 17, fontWeight: 700, textAlign: 'center', padding: 18, borderRadius: 6, textDecoration: 'none', boxShadow: '0 6px 24px rgba(58,130,180,.4)' }
+                          : { display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }
+                      }
                     >
                       Book this clean
                     </a>
-                    <button
-                      onClick={() => setShowEst(!showEst)}
-                      style={{ display: 'block', width: '100%', background: 'transparent', border: '1.5px solid rgba(255,255,255,.22)', color: 'rgba(255,255,255,.65)', fontSize: 13, fontWeight: 500, textAlign: 'center', padding: 11, borderRadius: 6, cursor: 'pointer', marginTop: 10, fontFamily: 'Inter,sans-serif' }}
-                    >
-                      {showEst ? '✕ Close' : '✉ Send this estimate to us'}
-                    </button>
+                    {scrollToBook && (
+                      <p style={{ fontSize: 11, color: 'rgba(255,255,255,.45)', textAlign: 'center', marginTop: 10 }}>
+                        {LANDING.bookingUrgency}
+                      </p>
+                    )}
+                    {scrollToBook ? (
+                      <button
+                        onClick={() => setShowEst(!showEst)}
+                        style={{ display: 'block', width: '100%', background: 'transparent', border: 'none', color: 'rgba(255,255,255,.4)', fontSize: 11, fontWeight: 400, textAlign: 'center', padding: '8px 0', cursor: 'pointer', marginTop: 14, fontFamily: 'Inter,sans-serif', textDecoration: 'underline' }}
+                      >
+                        {showEst ? '✕ Close' : 'Send this estimate to us'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setShowEst(!showEst)}
+                        style={{ display: 'block', width: '100%', background: 'transparent', border: '1.5px solid rgba(255,255,255,.22)', color: 'rgba(255,255,255,.65)', fontSize: 13, fontWeight: 500, textAlign: 'center', padding: 11, borderRadius: 6, cursor: 'pointer', marginTop: 10, fontFamily: 'Inter,sans-serif' }}
+                      >
+                        {showEst ? '✕ Close' : '✉ Send this estimate to us'}
+                      </button>
+                    )}
 
                     {/* Estimate form */}
                     {showEst && (

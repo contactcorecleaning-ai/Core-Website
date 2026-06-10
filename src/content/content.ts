@@ -314,12 +314,13 @@ export const LANDING = {
   offerBadge: '$35 OFF for first-time clients',
   offerNote:  'First-time client? Get $35 OFF this price.',
   hero: {
-    headline:     'Know Your Cleaning Price in 30 Seconds',
+    headline:     'See Your Price in 30 Seconds',
     subheadline:  'Flat-rate residential cleaning across Toronto & the GTA. From $149. No hidden fees, no waiting for callbacks.',
     ctaPrimary:   'Get Instant Estimate',
-    ctaSecondary: 'Book Your Cleaning',
+    ctaSecondary: 'Book Now',
     trust: ['5.0 Google Rating', 'Fully Insured', 'Same-Week Availability'],
   },
+  bookingUrgency: 'Next-day availability in most areas — spots fill fast',
   steps: [
     { num: '1', title: 'Get your instant price', body: 'Use the calculator below — no calls, no waiting.' },
     { num: '2', title: 'Pick a date',             body: 'Choose a time that works for you, online in minutes.' },
@@ -358,6 +359,7 @@ export const LANDING = {
     title:        'Get your exact price now — takes 30 seconds',
     ctaPrimary:   'Get Instant Estimate',
     ctaSecondary: 'Book Online',
+    urgencyLine:  'Most bookings confirmed within 2 hours',
   },
   footer: {
     copyright: '© 2026 Core Cleaning Services. All rights reserved.',
