@@ -38,6 +38,10 @@ export default function CleanLandingPage() {
               <p style={{ fontSize: 14, color: 'var(--ink-500)', marginTop: 12 }}>
                 Fill out the form — we&apos;ll confirm within 24 hours.
               </p>
+              <p style={{ fontSize: 13, color: 'var(--ink-500)', marginTop: 8 }}>
+                <span style={{ color: '#FBBF24' }}>★★★★★</span>
+                {' ' + LANDING.ratingTrustBook.replace('★★★★★ ', '')}
+              </p>
             </div>
             <JobberEmbed />
           </div>

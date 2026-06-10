@@ -438,6 +438,12 @@ export default function Calculator({ firstTimeOffer, scrollToBook }: Props) {
                         {LANDING.bookingUrgency}
                       </p>
                     )}
+                    {scrollToBook && (
+                      <p style={{ fontSize: 11, color: 'rgba(255,255,255,.4)', textAlign: 'center', marginTop: 6 }}>
+                        <span style={{ color: '#FBBF24' }}>★★★★★</span>
+                        {' ' + LANDING.ratingTrustCalc.replace('★★★★★ ', '')}
+                      </p>
+                    )}
                     {scrollToBook ? (
                       <button
                         onClick={() => setShowEst(!showEst)}

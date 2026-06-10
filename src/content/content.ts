@@ -321,10 +321,12 @@ export const LANDING = {
     trust: ['5.0 Google Rating', 'Fully Insured', 'Same-Week Availability'],
   },
   bookingUrgency: 'Next-day availability in most areas — spots fill fast',
+  ratingTrustCalc: '★★★★★ 5.0 on Google — rated by Toronto homeowners',
+  ratingTrustBook: '★★★★★ 5.0 on Google',
   steps: [
-    { num: '1', title: 'Get your instant price', body: 'Use the calculator below — no calls, no waiting.' },
-    { num: '2', title: 'Pick a date',             body: 'Choose a time that works for you, online in minutes.' },
-    { num: '3', title: 'We clean, you relax',     body: 'Our vetted team handles everything, top to bottom.' },
+    { num: '1', title: 'Get your instant price',     body: 'Use the calculator — see your flat rate in 30 seconds.' },
+    { num: '2', title: 'Send your booking request',  body: 'Fill out the quick form — we confirm your final quote by email within 2 hours.' },
+    { num: '3', title: 'We clean, you relax',        body: 'Our vetted team arrives on time and handles everything.' },
   ],
   recurringService: {
     num: '04',
