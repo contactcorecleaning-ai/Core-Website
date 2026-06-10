@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { useScrollFade } from '@/hooks/useScrollFade'
-import { SITE, LANDING } from '@/content/content'
+import { LANDING } from '@/content/content'
 import { trackConversion, CONV_BOOK } from '@/lib/gtag'
 
 export default function LandingHero() {
@@ -56,9 +56,7 @@ export default function LandingHero() {
               {LANDING.hero.ctaPrimary}
             </a>
             <a
-              href={SITE.booking}
-              target="_blank"
-              rel="noopener"
+              href="#book"
               onClick={() => trackConversion(CONV_BOOK)}
               style={{
                 display: 'inline-block',

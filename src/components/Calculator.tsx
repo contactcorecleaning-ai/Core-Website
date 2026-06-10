@@ -26,9 +26,10 @@ const SQFT_TIERS = [
 
 interface Props {
   firstTimeOffer?: string
+  scrollToBook?: boolean
 }
 
-export default function Calculator({ firstTimeOffer }: Props) {
+export default function Calculator({ firstTimeOffer, scrollToBook }: Props) {
   const [svc, setSvc]   = useState<SvcType>('regular')
   const [prop, setProp] = useState<PropType>('condo')
   const [beds, setBeds] = useState(1)
@@ -415,7 +416,12 @@ export default function Calculator({ firstTimeOffer }: Props) {
                       style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', lineHeight: 1.8, borderTop: '1px solid rgba(255,255,255,.08)', paddingTop: 16, marginBottom: 20 }}
                       dangerouslySetInnerHTML={{ __html: result?.html ?? '' }}
                     />
-                    <a href={bookingHref} target="_blank" rel="noopener" onClick={handleBookClick} style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}>
+                    <a
+                      href={scrollToBook ? '#book' : bookingHref}
+                      {...(scrollToBook ? {} : { target: '_blank', rel: 'noopener' })}
+                      onClick={handleBookClick}
+                      style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}
+                    >
                       Book this clean
                     </a>
                     <button

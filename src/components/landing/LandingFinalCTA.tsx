@@ -1,5 +1,5 @@
 'use client'
-import { SITE, LANDING } from '@/content/content'
+import { LANDING } from '@/content/content'
 import { trackConversion, CONV_BOOK } from '@/lib/gtag'
 
 export default function LandingFinalCTA() {
@@ -41,9 +41,7 @@ export default function LandingFinalCTA() {
               {LANDING.finalCta.ctaPrimary}
             </a>
             <a
-              href={SITE.booking}
-              target="_blank"
-              rel="noopener"
+              href="#book"
               onClick={() => trackConversion(CONV_BOOK)}
               style={{
                 display: 'inline-block',
