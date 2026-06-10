@@ -1,6 +1,7 @@
 'use client'
 import { SITE, HOURLY_RATE_PER_CLEANER, ADDON_PRICES } from '@/content/content'
 import { trackConversion, CONV_BOOK } from '@/lib/gtag'
+import { trackEstimate, withBookingParams, slug } from '@/lib/trackEstimate'
 
 interface Props {
   hrs: number
@@ -15,6 +16,13 @@ export default function HourlyCalculator({ hrs, petH, onAdjHrs, onPetH }: Props)
   const total    = hrs * teamRate + pet
   const per      = `${hrs} hour${hrs > 1 ? 's' : ''} · 2-cleaner team`
   const breakdown = `Rate: $${HOURLY_RATE_PER_CLEANER}/hr per cleaner · 2-cleaner team = $${teamRate}/hr total<br>Duration: ${hrs} hr${hrs > 1 ? 's' : ''} · Subtotal: $${hrs * teamRate}${pet ? `<br>Pet hair: +$${ADDON_PRICES.pet}` : ''}<br>Delivery fee: confirmed at booking`
+
+  const bookingHref = withBookingParams(SITE.booking, slug(`hourly-${hrs}hr-${total}`))
+
+  function handleBookClick() {
+    trackConversion(CONV_BOOK)
+    trackEstimate({ service: 'Hourly cleaning', hours: hrs, addons: petH ? ['Pet hair'] : [], price: String(total) })
+  }
 
   return (
     <div>
@@ -72,10 +80,10 @@ export default function HourlyCalculator({ hrs, petH, onAdjHrs, onPetH }: Props)
           dangerouslySetInnerHTML={{ __html: breakdown }}
         />
         <a
-          href={SITE.booking}
+          href={bookingHref}
           target="_blank"
           rel="noopener"
-          onClick={() => trackConversion(CONV_BOOK)}
+          onClick={handleBookClick}
           style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}
         >
           Book this clean

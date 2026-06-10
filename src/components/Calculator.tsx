@@ -7,6 +7,7 @@ import {
   BBQ_PANEL, PRESSURE_PANEL,
 } from '@/content/content'
 import { trackConversion, CONV_BOOK, CONV_QUOTE } from '@/lib/gtag'
+import { trackEstimate, withBookingParams, slug } from '@/lib/trackEstimate'
 import HourlyCalculator from './HourlyCalculator'
 
 type SvcType  = 'regular' | 'deep' | 'moveinout' | 'hourly' | 'post' | 'bbq' | 'pressure'
@@ -85,7 +86,15 @@ export default function Calculator({ firstTimeOffer }: Props) {
     if (svc === 'post' || svc === 'hourly' || svc === 'bbq' || svc === 'pressure') return null
     const isH  = prop === 'house'
     const base = calcBase(svc, beds, baths, isH)
-    if (!base) return { price: 'Quote', per: 'Contact us', badge: null, html: `Call: <strong style="color:#fff">${SITE.phone}</strong>` }
+    const svcLbl0     = SVC_LABELS[svc] ?? svc
+    const propLbl     = isH ? 'House' : 'Condo'
+    const sqftLbl     = SQFT_TIERS.find((t) => t.id === sqft)?.label ?? ''
+    const condLbl     = cond === 'heavy' ? 'Heavy soiling' : 'Normal'
+    const freqLbl     = freq.disc > 0 ? `${freq.label} (−${freq.disc}%)` : freq.label
+    if (!base) return {
+      price: 'Quote', per: 'Contact us', badge: null, html: `Call: <strong style="color:#fff">${SITE.phone}</strong>`,
+      meta: { service: svcLbl0, beds, baths, property: propLbl, sqft: sqftLbl, condition: condLbl, frequency: freqLbl, addons: [] as string[], price: '0' },
+    }
 
     const tier      = CALC_TIERS.find((t) => t.id === sqft) ?? CALC_TIERS[0]
     const sqS       = sqft === 'base' ? 0 : tier.s
@@ -96,22 +105,23 @@ export default function Calculator({ firstTimeOffer }: Props) {
 
     let addons = 0
     const lines: string[] = []
-    if (pet)                    { addons += ADDON_PRICES.pet;    lines.push(`Pet hair: +$${ADDON_PRICES.pet}`) }
-    if (!isMIO && oven)         { addons += ADDON_PRICES.oven;   lines.push(`Oven: +$${ADDON_PRICES.oven}`) }
-    if (!isMIO && fridge)       { addons += ADDON_PRICES.fridge; lines.push(`Fridge: +$${ADDON_PRICES.fridge}`) }
-    if (!isMIO && blinds)       { addons += ADDON_PRICES.blinds; lines.push(`Blinds: +$${ADDON_PRICES.blinds}`) }
-    if (walls)                  { addons += ADDON_PRICES.walls;  lines.push(`Walls: +$${ADDON_PRICES.walls}`) }
-    if (doors)                  { addons += ADDON_PRICES.doors;  lines.push(`Doors: +$${ADDON_PRICES.doors}`) }
-    if (!isMIO && dish)         { addons += ADDON_PRICES.dish;   lines.push(`Dishwasher: +$${ADDON_PRICES.dish}`) }
-    if (!isMIO && win)          { addons += winPrice;            lines.push(`Windows: +$${winPrice}`) }
-    if (carpet > 0)   { const c = ADDON_PRICES.carpet1 + Math.max(0, carpet - 1) * ADDON_PRICES.carpetX; addons += c; lines.push(`Carpet(${carpet}rm): +$${c}`) }
-    if (sofaS > 0)    { const s = sofaS * ADDON_PRICES.sofaS;    addons += s; lines.push(`Sofa S×${sofaS}: +$${s}`) }
-    if (sofaL > 0)    { const s = sofaL * ADDON_PRICES.sofaL;    addons += s; lines.push(`Sofa L×${sofaL}: +$${s}`) }
-    if (laundry > 0)  { const s = laundry * ADDON_PRICES.laundry;  addons += s; lines.push(`Laundry×${laundry}: +$${s}`) }
-    if (dishLoad > 0) { const s = dishLoad * ADDON_PRICES.dishLoad; addons += s; lines.push(`Dish×${dishLoad}: +$${s}`) }
+    const addonNames: string[] = []
+    if (pet)                    { addons += ADDON_PRICES.pet;    lines.push(`Pet hair: +$${ADDON_PRICES.pet}`); addonNames.push('Pet hair surcharge') }
+    if (!isMIO && oven)         { addons += ADDON_PRICES.oven;   lines.push(`Oven: +$${ADDON_PRICES.oven}`); addonNames.push('Inside oven') }
+    if (!isMIO && fridge)       { addons += ADDON_PRICES.fridge; lines.push(`Fridge: +$${ADDON_PRICES.fridge}`); addonNames.push('Inside fridge') }
+    if (!isMIO && blinds)       { addons += ADDON_PRICES.blinds; lines.push(`Blinds: +$${ADDON_PRICES.blinds}`); addonNames.push('Window blinds') }
+    if (walls)                  { addons += ADDON_PRICES.walls;  lines.push(`Walls: +$${ADDON_PRICES.walls}`); addonNames.push('Spot clean walls') }
+    if (doors)                  { addons += ADDON_PRICES.doors;  lines.push(`Doors: +$${ADDON_PRICES.doors}`); addonNames.push('Clean all doors') }
+    if (!isMIO && dish)         { addons += ADDON_PRICES.dish;   lines.push(`Dishwasher: +$${ADDON_PRICES.dish}`); addonNames.push('Inside dishwasher') }
+    if (!isMIO && win)          { addons += winPrice;            lines.push(`Windows: +$${winPrice}`); addonNames.push('Interior windows') }
+    if (carpet > 0)   { const c = ADDON_PRICES.carpet1 + Math.max(0, carpet - 1) * ADDON_PRICES.carpetX; addons += c; lines.push(`Carpet(${carpet}rm): +$${c}`); addonNames.push(`Carpet cleaning ×${carpet}`) }
+    if (sofaS > 0)    { const s = sofaS * ADDON_PRICES.sofaS;    addons += s; lines.push(`Sofa S×${sofaS}: +$${s}`); addonNames.push(`Sofa small ×${sofaS}`) }
+    if (sofaL > 0)    { const s = sofaL * ADDON_PRICES.sofaL;    addons += s; lines.push(`Sofa L×${sofaL}: +$${s}`); addonNames.push(`Sofa large ×${sofaL}`) }
+    if (laundry > 0)  { const s = laundry * ADDON_PRICES.laundry;  addons += s; lines.push(`Laundry×${laundry}: +$${s}`); addonNames.push(`Laundry ×${laundry}`) }
+    if (dishLoad > 0) { const s = dishLoad * ADDON_PRICES.dishLoad; addons += s; lines.push(`Dish×${dishLoad}: +$${s}`); addonNames.push(`Dishwasher loads ×${dishLoad}`) }
 
     const total  = sub + addons
-    const svcLbl = SVC_LABELS[svc] ?? svc
+    const svcLbl = svcLbl0
     let html = `${svcLbl} · ${sizeLbl} · ${isH ? 'House' : 'Condo'}<br>Base: $${base}`
     if (sqS > 0)    html += `<br>Size surcharge: +$${sqS}`
     if (hvS > 0)    html += `<br>Heavy soiling: +$${hvS}`
@@ -125,6 +135,7 @@ export default function Calculator({ firstTimeOffer }: Props) {
       per:   freq.label === 'One-time' ? 'flat rate' : `per visit · ${freq.label}`,
       badge: saved > 0 ? `Saving $${saved} per visit` : null,
       html,
+      meta: { service: svcLbl, beds, baths, property: propLbl, sqft: sqftLbl, condition: condLbl, frequency: freqLbl, addons: addonNames, price: String(total) },
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [svc, prop, beds, baths, sqft, cond, freq, pet, oven, fridge, blinds, walls, doors, dish, win, winPrice, carpet, sofaS, sofaL, laundry, dishLoad, isMIO, sizeLbl])
@@ -185,6 +196,15 @@ export default function Calculator({ firstTimeOffer }: Props) {
         </div>
       </div>
     )
+  }
+
+  const bookingHref = result?.meta
+    ? withBookingParams(SITE.booking, slug(`${result.meta.service}-${result.meta.beds}bed-${result.meta.baths}bath-${result.meta.property}-${result.meta.price}`))
+    : SITE.booking
+
+  function handleBookClick() {
+    trackConversion(CONV_BOOK)
+    if (result?.meta) trackEstimate(result.meta)
   }
 
   function handleSendEstimate() {
@@ -395,7 +415,7 @@ export default function Calculator({ firstTimeOffer }: Props) {
                       style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', lineHeight: 1.8, borderTop: '1px solid rgba(255,255,255,.08)', paddingTop: 16, marginBottom: 20 }}
                       dangerouslySetInnerHTML={{ __html: result?.html ?? '' }}
                     />
-                    <a href={SITE.booking} target="_blank" rel="noopener" onClick={() => trackConversion(CONV_BOOK)} style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}>
+                    <a href={bookingHref} target="_blank" rel="noopener" onClick={handleBookClick} style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}>
                       Book this clean
                     </a>
                     <button
