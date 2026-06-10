@@ -33,10 +33,10 @@ export default function CleanLandingPage() {
           <div className="max-w-6xl mx-auto px-8">
             <div style={{ marginBottom: 40, textAlign: 'center' }}>
               <h2 className="text-[34px] sm:text-[42px] font-light tracking-tight fu" style={{ color: 'var(--ink-900)' }}>
-                Book your cleaning
+                {LANDING.bookSection.heading}
               </h2>
               <p style={{ fontSize: 14, color: 'var(--ink-500)', marginTop: 12 }}>
-                Fill out the form — we&apos;ll confirm within 24 hours.
+                {LANDING.bookSection.subtext}
               </p>
               <p style={{ fontSize: 13, color: 'var(--ink-500)', marginTop: 8 }}>
                 <span style={{ color: '#FBBF24' }}>★★★★★</span>

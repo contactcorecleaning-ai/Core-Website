@@ -323,6 +323,10 @@ export const LANDING = {
   bookingUrgency: 'Next-day availability in most areas — spots fill fast',
   ratingTrustCalc: '★★★★★ 5.0 on Google — rated by Toronto homeowners',
   ratingTrustBook: '★★★★★ 5.0 on Google',
+  bookSection: {
+    heading: 'Book your cleaning',
+    subtext: "Fill out the form — we'll confirm within 2 hours.",
+  },
   steps: [
     { num: '1', title: 'Get your instant price',     body: 'Use the calculator — see your flat rate in 30 seconds.' },
     { num: '2', title: 'Send your booking request',  body: 'Fill out the quick form — we confirm your final quote by email within 2 hours.' },
