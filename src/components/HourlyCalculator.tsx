@@ -1,5 +1,6 @@
 'use client'
 import { SITE, HOURLY_RATE_PER_CLEANER, ADDON_PRICES } from '@/content/content'
+import { trackConversion, CONV_BOOK } from '@/lib/gtag'
 
 interface Props {
   hrs: number
@@ -74,6 +75,7 @@ export default function HourlyCalculator({ hrs, petH, onAdjHrs, onPetH }: Props)
           href={SITE.booking}
           target="_blank"
           rel="noopener"
+          onClick={() => trackConversion(CONV_BOOK)}
           style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}
         >
           Book this clean

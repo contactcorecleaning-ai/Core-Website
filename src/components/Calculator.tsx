@@ -6,6 +6,7 @@ import {
   EXTRA_BED, EXTRA_BATH, EXTRA_MIO_BED, HEAVY_SOILING,
   BBQ_PANEL, PRESSURE_PANEL,
 } from '@/content/content'
+import { trackConversion, CONV_BOOK, CONV_QUOTE } from '@/lib/gtag'
 import HourlyCalculator from './HourlyCalculator'
 
 type SvcType  = 'regular' | 'deep' | 'moveinout' | 'hourly' | 'post' | 'bbq' | 'pressure'
@@ -22,7 +23,11 @@ const SQFT_TIERS = [
   { id: '3000+',     label: '3,000+ sq ft' },
 ]
 
-export default function Calculator() {
+interface Props {
+  firstTimeOffer?: string
+}
+
+export default function Calculator({ firstTimeOffer }: Props) {
   const [svc, setSvc]   = useState<SvcType>('regular')
   const [prop, setProp] = useState<PropType>('condo')
   const [beds, setBeds] = useState(1)
@@ -186,6 +191,7 @@ export default function Calculator() {
     if (!estName.trim() || !estPhone.trim()) { setEstErr(true); return }
     setEstErr(false)
     if (!result) return
+    trackConversion(CONV_QUOTE)
     const details = result.html.replace(/<br>/gi, '\n').replace(/<[^>]*>/g, '').trim()
     const s = encodeURIComponent(`Quick Estimate — ${result.price} — Core Cleaning Services`)
     const emailLine = estEmail.trim() ? `\nEmail: ${estEmail.trim()}` : ''
@@ -380,11 +386,16 @@ export default function Calculator() {
                         {result.badge}
                       </p>
                     )}
+                    {firstTimeOffer && (
+                      <p style={{ fontSize: 12, color: 'var(--acc-m)', fontWeight: 600, marginBottom: 16 }}>
+                        {firstTimeOffer}
+                      </p>
+                    )}
                     <div
                       style={{ fontSize: 12, color: 'rgba(255,255,255,.5)', lineHeight: 1.8, borderTop: '1px solid rgba(255,255,255,.08)', paddingTop: 16, marginBottom: 20 }}
                       dangerouslySetInnerHTML={{ __html: result?.html ?? '' }}
                     />
-                    <a href={SITE.booking} target="_blank" rel="noopener" style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}>
+                    <a href={SITE.booking} target="_blank" rel="noopener" onClick={() => trackConversion(CONV_BOOK)} style={{ display: 'block', width: '100%', background: '#fff', color: 'var(--ink-900)', fontSize: 13, fontWeight: 600, textAlign: 'center', padding: 14, borderRadius: 6, textDecoration: 'none' }}>
                       Book this clean
                     </a>
                     <button

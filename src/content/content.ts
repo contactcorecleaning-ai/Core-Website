@@ -303,3 +303,63 @@ export const ADDON_PRICES = {
   laundry: 25,
   dishLoad:25,
 }
+
+// ─── /clean — Google Ads Landing Page ────────────────────────────────────────
+
+export const LANDING = {
+  meta: {
+    title: 'Instant Cleaning Quote | Core Cleaning Services Toronto & GTA',
+    description: 'Get your flat-rate residential cleaning price in 30 seconds. From $149. $35 off for first-time clients. Toronto & GTA.',
+  },
+  offerBadge: '$35 OFF for first-time clients',
+  offerNote:  'First-time client? Get $35 OFF this price.',
+  hero: {
+    headline:     'Know Your Cleaning Price in 30 Seconds',
+    subheadline:  'Flat-rate residential cleaning across Toronto & the GTA. From $149. No hidden fees, no waiting for callbacks.',
+    ctaPrimary:   'Get Instant Estimate',
+    ctaSecondary: 'Book Your Cleaning',
+    trust: ['5.0 Google Rating', 'Fully Insured', 'Same-Week Availability'],
+  },
+  steps: [
+    { num: '1', title: 'Get your instant price', body: 'Use the calculator below — no calls, no waiting.' },
+    { num: '2', title: 'Pick a date',             body: 'Choose a time that works for you, online in minutes.' },
+    { num: '3', title: 'We clean, you relax',     body: 'Our vetted team handles everything, top to bottom.' },
+  ],
+  recurringService: {
+    num: '04',
+    name: 'Recurring Cleaning',
+    description: 'Weekly, bi-weekly or monthly visits — save up to 20% on every clean, automatically.',
+    price: 'Save up to 20%',
+    highlight: true,
+  },
+  faqs: [
+    {
+      q: "What's included in a standard clean?",
+      a: 'Dusting all surfaces, vacuuming and mopping floors, bathroom cleaning (toilet, sink, shower/tub), kitchen cleaning (counters, stovetop, sink, appliance exteriors), and general tidying. Oven, fridge and windows are available as add-ons.',
+      defaultOpen: true,
+    },
+    {
+      q: 'How does flat-rate pricing work?',
+      a: 'You see the price upfront based on home size and service type. No clock running — we work until the job is done right.',
+      defaultOpen: false,
+    },
+    {
+      q: 'Do I need to be home?',
+      a: 'Not at all. Many clients provide a key, door code or concierge access. We are fully insured and trusted with unsupervised access.',
+      defaultOpen: false,
+    },
+    {
+      q: 'How fast can you come?',
+      a: "We offer same-week availability in most areas — and in urgent cases, next-day availability. Call or text us at (437) 603-8880 to check today's openings.",
+      defaultOpen: false,
+    },
+  ],
+  finalCta: {
+    title:        'Get your exact price now — takes 30 seconds',
+    ctaPrimary:   'Get Instant Estimate',
+    ctaSecondary: 'Book Online',
+  },
+  footer: {
+    copyright: '© 2026 Core Cleaning Services. All rights reserved.',
+  },
+}
