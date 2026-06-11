@@ -52,6 +52,8 @@ export default function Calculator({ firstTimeOffer, scrollToBook }: Props) {
   const [laundry,  setLaundry]  = useState(0)
   const [dishLoad, setDishLoad] = useState(0)
 
+  const [addonsOpen, setAddonsOpen] = useState(false)
+
   const [hrs,  setHrs]  = useState(2)
   const [petH, setPetH] = useState(false)
 
@@ -198,6 +200,10 @@ export default function Calculator({ firstTimeOffer, scrollToBook }: Props) {
       </div>
     )
   }
+
+  const selectedAddonsCount =
+    [pet, oven, fridge, blinds, walls, doors, dish, win].filter(Boolean).length +
+    [carpet, sofaS, sofaL, laundry, dishLoad].filter((v) => v > 0).length
 
   const bookingHref = result?.meta
     ? withBookingParams(SITE.booking, slug(`${result.meta.service}-${result.meta.beds}bed-${result.meta.baths}bath-${result.meta.property}-${result.meta.price}`))
@@ -373,26 +379,39 @@ export default function Calculator({ firstTimeOffer, scrollToBook }: Props) {
 
                   {/* Add-ons */}
                   <div className="calc-step">
-                    <p className="slabel mb-4">Add-ons</p>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <AddonRow label="Pet hair surcharge"  price={`+$${ADDON_PRICES.pet}`}    checked={pet}    onChange={setPet} />
-                      <AddonRow label="Inside oven"         price={`+$${ADDON_PRICES.oven}`}   checked={oven}   onChange={setOven}   included={isMIO} />
-                      <AddonRow label="Inside fridge"       price={`+$${ADDON_PRICES.fridge}`} checked={fridge} onChange={setFridge} included={isMIO} />
-                      <AddonRow label="Window blinds"       price={`+$${ADDON_PRICES.blinds}`} checked={blinds} onChange={setBlinds} included={isMIO} />
-                      <AddonRow label="Spot clean walls"    price={`+$${ADDON_PRICES.walls}`}  checked={walls}  onChange={setWalls} />
-                      <AddonRow label="Clean all doors"     price={`+$${ADDON_PRICES.doors}`}  checked={doors}  onChange={setDoors} />
-                      <AddonRow label="Inside dishwasher"   price={`+$${ADDON_PRICES.dish}`}   checked={dish}   onChange={setDish}   included={isMIO} />
-                      <AddonRow label="Interior windows"    price={`+$${winPrice}`} checked={win} onChange={setWin} included={isMIO} note={winNote} />
-                      <CounterRow label="Carpet cleaning"             price={`$${ADDON_PRICES.carpet1} first room · +$${ADDON_PRICES.carpetX} each extra`} val={carpet}   onAdj={(d) => setCarpet((v)   => Math.max(0, v + d))} />
-                      <CounterRow label="Sofa — small (1–2 seater)"  price={`$${ADDON_PRICES.sofaS} each`} val={sofaS}   onAdj={(d) => setSofaS((v)    => Math.max(0, v + d))} />
-                      <CounterRow label="Sofa — large (3+ seater)"   price={`$${ADDON_PRICES.sofaL} each`} val={sofaL}   onAdj={(d) => setSofaL((v)    => Math.max(0, v + d))} />
-                      <CounterRow label="Laundry loads"               price={`$${ADDON_PRICES.laundry} per load`} val={laundry} onAdj={(d) => setLaundry((v)  => Math.max(0, v + d))} />
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 0' }}>
-                        <div>
-                          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-900)' }}>Dishwasher loads</p>
-                          <p style={{ fontSize: 11, color: 'var(--ink-300)', marginTop: 2 }}>${ADDON_PRICES.dishLoad} per load</p>
+                    <button
+                      type="button"
+                      onClick={() => setAddonsOpen((v) => !v)}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', textAlign: 'left' }}
+                    >
+                      <span className="slabel" style={{ marginBottom: 0 }}>
+                        {selectedAddonsCount > 0
+                          ? `Add extras (${selectedAddonsCount} selected)`
+                          : '+ Add extras (oven, fridge, pet hair...)'}
+                      </span>
+                      <span style={{ fontSize: 14, color: 'var(--acc)', flexShrink: 0 }}>{addonsOpen ? '−' : '+'}</span>
+                    </button>
+                    <div className={`addons-body${addonsOpen ? ' open' : ''}`}>
+                      <div style={{ display: 'flex', flexDirection: 'column', marginTop: 16 }}>
+                        <AddonRow label="Pet hair surcharge"  price={`+$${ADDON_PRICES.pet}`}    checked={pet}    onChange={setPet} />
+                        <AddonRow label="Inside oven"         price={`+$${ADDON_PRICES.oven}`}   checked={oven}   onChange={setOven}   included={isMIO} />
+                        <AddonRow label="Inside fridge"       price={`+$${ADDON_PRICES.fridge}`} checked={fridge} onChange={setFridge} included={isMIO} />
+                        <AddonRow label="Window blinds"       price={`+$${ADDON_PRICES.blinds}`} checked={blinds} onChange={setBlinds} included={isMIO} />
+                        <AddonRow label="Spot clean walls"    price={`+$${ADDON_PRICES.walls}`}  checked={walls}  onChange={setWalls} />
+                        <AddonRow label="Clean all doors"     price={`+$${ADDON_PRICES.doors}`}  checked={doors}  onChange={setDoors} />
+                        <AddonRow label="Inside dishwasher"   price={`+$${ADDON_PRICES.dish}`}   checked={dish}   onChange={setDish}   included={isMIO} />
+                        <AddonRow label="Interior windows"    price={`+$${winPrice}`} checked={win} onChange={setWin} included={isMIO} note={winNote} />
+                        <CounterRow label="Carpet cleaning"             price={`$${ADDON_PRICES.carpet1} first room · +$${ADDON_PRICES.carpetX} each extra`} val={carpet}   onAdj={(d) => setCarpet((v)   => Math.max(0, v + d))} />
+                        <CounterRow label="Sofa — small (1–2 seater)"  price={`$${ADDON_PRICES.sofaS} each`} val={sofaS}   onAdj={(d) => setSofaS((v)    => Math.max(0, v + d))} />
+                        <CounterRow label="Sofa — large (3+ seater)"   price={`$${ADDON_PRICES.sofaL} each`} val={sofaL}   onAdj={(d) => setSofaL((v)    => Math.max(0, v + d))} />
+                        <CounterRow label="Laundry loads"               price={`$${ADDON_PRICES.laundry} per load`} val={laundry} onAdj={(d) => setLaundry((v)  => Math.max(0, v + d))} />
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 0' }}>
+                          <div>
+                            <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-900)' }}>Dishwasher loads</p>
+                            <p style={{ fontSize: 11, color: 'var(--ink-300)', marginTop: 2 }}>${ADDON_PRICES.dishLoad} per load</p>
+                          </div>
+                          <Counter val={dishLoad} onAdj={(d) => setDishLoad((v) => Math.max(0, v + d))} />
                         </div>
-                        <Counter val={dishLoad} onAdj={(d) => setDishLoad((v) => Math.max(0, v + d))} />
                       </div>
                     </div>
                   </div>

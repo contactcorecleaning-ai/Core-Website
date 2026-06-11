@@ -11,7 +11,7 @@ export const SITE = {
   whatsapp: 'https://wa.me/14376038880?text=Hi%2C%20I%27d%20like%20a%20quote%20for%20cleaning%20services',
   instagram: 'https://www.instagram.com/core_cleaning.services',
   instagramHandle: '@core_cleaning.services',
-  booking: 'https://clienthub.getjobber.com/hubs/ef64eda2-0407-4230-9fbb-acb064aec427/public/requests/2110113/new?utm_source=yelp',
+  booking: 'https://clienthub.getjobber.com/hubs/ef64eda2-0407-4230-9fbb-acb064aec427/public/requests/2110113/new?utm_source=website',
   canonical: 'https://www.corecleaningservices.ca',
   hours: '07:00 – 21:00, every day',
   googleRating: '5.0',

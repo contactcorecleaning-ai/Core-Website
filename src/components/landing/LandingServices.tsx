@@ -19,18 +19,6 @@ export default function LandingServices() {
               className={`svc-card fu d${(i % 4) + 1}`}
               style={s.highlight ? { borderColor: 'var(--acc-m)' } : undefined}
             >
-              <p
-                style={{
-                  color: 'var(--acc-m)',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '.12em',
-                  textTransform: 'uppercase',
-                  marginBottom: 16,
-                }}
-              >
-                {s.num}
-              </p>
               <h3 style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink-900)', marginBottom: 10 }}>
                 {s.name}
               </h3>

@@ -80,6 +80,9 @@ input:checked + .sl::before { transform: translateX(18px); }
 .faq-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
 .faq-body.open { max-height: 260px; }
 
+.addons-body { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+.addons-body.open { max-height: 2000px; }
+
 /* Form field focus */
 .field:focus {
   outline: none;

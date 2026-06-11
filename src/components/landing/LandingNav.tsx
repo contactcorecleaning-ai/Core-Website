@@ -40,9 +40,7 @@ export default function LandingNav() {
             {SITE.phone}
           </a>
           <a
-            href={SITE.booking}
-            target="_blank"
-            rel="noopener"
+            href="#book"
             onClick={() => trackConversion(CONV_BOOK)}
             className="btn-p"
           >
