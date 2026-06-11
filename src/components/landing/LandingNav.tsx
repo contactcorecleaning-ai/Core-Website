@@ -21,16 +21,16 @@ export default function LandingNav() {
     >
       <div className="max-w-6xl mx-auto px-8 flex items-center justify-between" style={{ height: 72 }}>
         {/* Logo */}
-        <span style={{ display: 'flex', alignItems: 'center', gap: 11, flexShrink: 0 }}>
-          <Image src="/logo.png" alt="Core Cleaning Services logo" width={52} height={52} style={{ objectFit: 'contain', display: 'block' }} />
-          <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.18, gap: 2 }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 11, flexShrink: 1, minWidth: 0 }}>
+          <Image src="/logo.png" alt="Core Cleaning Services logo" width={52} height={52} style={{ objectFit: 'contain', display: 'block', flexShrink: 0 }} />
+          <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.18, gap: 2, minWidth: 0 }}>
             <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink-700)', letterSpacing: '.10em', textTransform: 'uppercase' }}>CORE</span>
-            <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink-700)', letterSpacing: '.10em', textTransform: 'uppercase' }}>CLEANING SERVICES</span>
+            <span className="hidden sm:block" style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink-700)', letterSpacing: '.10em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>CLEANING SERVICES</span>
           </span>
         </span>
 
         {/* Phone + Book Now */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4" style={{ flexShrink: 0 }}>
           <a
             href={SITE.phoneHref}
             onClick={() => trackConversion(CONV_BOOK)}
@@ -43,6 +43,7 @@ export default function LandingNav() {
             href="#book"
             onClick={() => trackConversion(CONV_BOOK)}
             className="btn-p"
+            style={{ whiteSpace: 'nowrap' }}
           >
             Book Now
           </a>
